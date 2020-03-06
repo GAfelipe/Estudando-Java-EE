@@ -5,6 +5,11 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 
 // imports...
@@ -31,7 +36,8 @@ public class Lancamento implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
+	@NotNull
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "pessoa_id")
 	public Pessoa getPessoa() {
@@ -41,7 +47,9 @@ public class Lancamento implements Serializable {
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
 	}
-
+	
+	@NotEmpty
+	@Size(max = 80)
 	@Column(length = 80, nullable = false)
 	public String getDescricao() {
 		return descricao;
@@ -50,7 +58,9 @@ public class Lancamento implements Serializable {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-
+	
+	@NotNull
+	@DecimalMin("0")
 	@Column(precision = 10, scale = 2, nullable = false)
 	public BigDecimal getValor() {
 		return valor;
@@ -59,7 +69,8 @@ public class Lancamento implements Serializable {
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
-
+	
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	public TipoLancamento getTipo() {
@@ -69,7 +80,8 @@ public class Lancamento implements Serializable {
 	public void setTipo(TipoLancamento tipo) {
 		this.tipo = tipo;
 	}
-
+	
+	@NotNull
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data_vencimento", nullable = false)
 	public Date getDataVencimento() {
