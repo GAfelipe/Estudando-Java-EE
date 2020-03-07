@@ -42,7 +42,7 @@
 			<version>4.3.8.Final</version>
 			<scope>compile</scope>
 		</dependency>
-		<!-- Driver JDBC do MySQL -->
+		<!-- Driver JDBC do postgres -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -74,5 +74,26 @@
 			<version>2.2.10</version>
 			<scope>compile</scope>
 		</dependency>
+		<!-- Weld (implementação do CDI) -->
+		<dependency>
+			<groupId>org.jboss.weld.servlet</groupId>
+			<artifactId>weld-servlet</artifactId>
+			<version>2.2.9.Final</version>
+			<scope>compile</scope>
+		</dependency>
+		<!-- Weld depende do Jandex -->
+		<dependency>
+			<groupId>org.jboss</groupId>
+			<artifactId>jandex</artifactId>
+			<version>1.2.3.Final</version>
+			<scope>compile</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.omnifaces/omnifaces -->
+		<dependency>
+			<groupId>org.omnifaces</groupId>
+			<artifactId>omnifaces</artifactId>
+			<version>1.14</version>
+		</dependency>
+
 	</dependencies>
 </project>
