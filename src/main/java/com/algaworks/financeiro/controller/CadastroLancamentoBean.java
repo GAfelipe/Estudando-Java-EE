@@ -4,14 +4,12 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 
 import com.algaworks.financeiro.model.Lancamento;
 import com.algaworks.financeiro.model.Pessoa;
@@ -20,7 +18,6 @@ import com.algaworks.financeiro.repository.Lancamentos;
 import com.algaworks.financeiro.repository.Pessoas;
 import com.algaworks.financeiro.service.CadastroLancamentos;
 import com.algaworks.financeiro.service.NegocioException;
-import com.algaworks.financeiro.util.JpaUtil;
 
 @Named
 @ViewScoped
@@ -32,12 +29,23 @@ public class CadastroLancamentoBean implements Serializable {
 	private CadastroLancamentos cadastro;
 	@Inject
 	private Pessoas pessoas;
+	@Inject
+	private Lancamentos lancamentos;
 
 	private Lancamento lancamento = new Lancamento();
 	private List<Pessoa> todasPessoas;
 
 	public void prepararCadastro() {
 		this.todasPessoas = this.pessoas.todas();
+		if (this.lancamento == null) {
+
+			this.lancamento = new Lancamento();
+		}
+
+	}
+
+	public List<String> pesquisarDescricoes(String descricao) {
+		return this.lancamentos.descricoesQueContem(descricao);
 	}
 
 	public void descricaoModificada(ValueChangeEvent event) {
@@ -57,6 +65,12 @@ public class CadastroLancamentoBean implements Serializable {
 			context.addMessage(null, mensagem);
 		}
 
+	}
+
+	public void dataVencimentoAlterada(AjaxBehaviorEvent event) {
+		if (this.lancamento.getDataPagamento() == null) {
+			this.lancamento.setDataPagamento(this.lancamento.getDataVencimento());
+		}
 	}
 
 	public List<Pessoa> getTodasPessoas() {
